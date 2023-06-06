@@ -105,7 +105,7 @@ function ChatScreen({ route }) {
           <ChatTools
             refresh={refresh}
             setRefresh={setRefresh}
-            accountNo={route.params.beneficiaryNumber}
+            accountNo={route.params.number}
             //handleSubmit={handleSubmit}
           />
         </View>

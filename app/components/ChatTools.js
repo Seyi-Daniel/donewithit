@@ -36,8 +36,11 @@ function ChatTools({ accountNo, refresh, setRefresh }) {
     if (chat.payload != "") {
       resetForm();
       const result = await chatApi.sendChat(chat);
-      if (result.data.message !== "") alert(result.data.message);
-      else alert("Sent Successfully");
+      console.log(result);
+      if (result.data.interaction == "Transaction") {
+        if (result.data.message !== "") alert(result.data.message);
+        else alert("Sent Successfully");
+      }
       setRefresh(!refresh);
     }
     resetForm();

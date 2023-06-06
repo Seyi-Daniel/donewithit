@@ -117,10 +117,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue,
     borderRadius: 40,
     height: 75,
-    left: 370,
     bottom: 40,
     position: "relative",
     width: 75,
+    alignSelf: "flex-end",
+    marginRight: 30,
   },
 });
 
