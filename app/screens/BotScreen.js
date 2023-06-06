@@ -17,15 +17,14 @@ function BotScreen({ route }) {
     {
       id: 1,
       interaction: "Received",
-      payload:
-        "Hey Tolani! 👋\nI'm Prime, your virtual assistant from Optimus Bank.",
+      payload: "Hey 👋\nI'm Prime, your virtual assistant from Optimus Bank.",
     },
   ]);
   const [temp, setTemp] = useState({
     id: 2,
     interaction: "Received",
     payload:
-      "Here are a list I can help you with\n 1. Balance Inquiry\n 2. Airtime/Data Purchase\n 3. Transfer\n 4. Bill Payment\n 5. Get Statement\n 6. Loan Request\n 7. Change PIN\n 8. Log Complaints\n 9. FAQ\n10. Nearest Agent",
+      "Here are a list I can help you with\n\n1. Balance Inquiry\n 2. Airtime/Data Purchase\n 3. Transfer\n 4. Bill Payment\n 5. Get Statement\n 6. Loan Request\n 7. Change PIN\n 8. Log Complaints\n 9. FAQ\n10. Nearest Agent",
   });
 
   useEffect(() => {
@@ -44,6 +43,11 @@ function BotScreen({ route }) {
     <View style={styles.container}>
       <KeyboardAvoidingView style={styles.container}>
         <FlatList
+          ref={(ref) => (this.flatList = ref)}
+          onContentSizeChange={() =>
+            this.flatList.scrollToEnd({ animated: true })
+          }
+          onLayout={() => this.flatList.scrollToEnd({ animated: true })}
           data={responses}
           keyExtractor={(response) => response.id.toString()}
           renderItem={({ item }) => (
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
       borderBottomStartRadius: 10,
     },
     Received: {
-      backgroundColor: colors.green,
+      backgroundColor: colors.blue,
       padding: 10,
       borderTopStartRadius: 10,
       borderTopEndRadius: 10,

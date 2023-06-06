@@ -9,6 +9,7 @@ import ListItemSeperator from "../components/ListItemSeperator";
 import routes from "../navigation/routes";
 import Screen from "../components/Screen";
 import useAuth from "../auth/useAuth";
+import Profile from "../components/profile";
 
 const menuItems = [
   {
@@ -33,12 +34,8 @@ function AccountScreen({ navigation }) {
 
   return (
     <Screen style={styles.screen}>
-      <View style={styles.container}>
-        <ListItem
-          title={user.name}
-          subTitle={user.email}
-          image={require("../assets/chair.jpg")}
-        />
+      <View>
+        <Profile />
       </View>
       <View style={styles.container}>
         <ListItem

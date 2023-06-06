@@ -64,7 +64,7 @@ function MessagesScreen({ navigation }) {
           </View>
           <ListItem
             title="Prime"
-            subTitle="Hello Tolani! How can I assist you?"
+            subTitle="Hi! How can I assist you?"
             image={require("../assets/optilogo.png")}
             onPress={() => navigation.navigate("BotChat")}
           />

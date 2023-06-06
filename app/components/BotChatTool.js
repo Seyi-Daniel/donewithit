@@ -1,31 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import AppButton from "./AppButton";
 import {
   AppForm as Form,
   AppFormField as FormField,
   SubmitButton,
 } from "../components/forms";
 import colors from "../config/colors";
-import chatApi from "../api/chat";
+
+import balanceApi from "../api/balance";
 import useApi from "../hooks/useApi";
 
 function BotChatTool({ accountNo, send, tempState }) {
-  const [toggle, setToggle] = useState(false);
-  const [toggleColor, setToggleColor] = useState();
-  const handlePress = () => {
-    if (toggle) {
-      setToggle(false);
-      setToggleColor(null);
-    } else {
-      setToggle(true);
-      setToggleColor(colors.green);
-    }
-  };
+  const { data: balance, request: loadBalance } = useApi(balanceApi.getBalance);
 
-  const result = (myMessage, botMessage) => {
+  useEffect(() => {
+    loadBalance();
+  }, []);
+
+  const dualOutput = (myMessage, botMessage) => {
     const me = () => {
       send({
         id: Math.round(Math.random() * 1000),
@@ -33,7 +27,7 @@ function BotChatTool({ accountNo, send, tempState }) {
         payload: myMessage,
       });
       const bot = async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         tempState({
           id: Math.round(Math.random() * 1000),
           interaction: "Received",
@@ -44,16 +38,16 @@ function BotChatTool({ accountNo, send, tempState }) {
     };
     me();
   };
-
-  const me = (message) => {
+  const justMe = async (message) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     send({
       id: Math.round(Math.random() * 1000),
       interaction: "Sent",
       payload: message,
     });
   };
-
-  const bot = (message) => {
+  const justBot = async (message) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     send({
       id: Math.round(Math.random() * 1000),
       interaction: "Received",
@@ -61,59 +55,81 @@ function BotChatTool({ accountNo, send, tempState }) {
     });
   };
 
+  const [controller, setController] = useState(1);
+
+  const control = (message) => {
+    switch (controller) {
+      case 0:
+        break;
+      case 1:
+        process(message);
+        break;
+      case "2":
+        justBot("That worked");
+        break;
+      default:
+    }
+  };
+
   const process = (message) => {
     switch (message.payload) {
       case "1":
-        //me(message.payload);
-        //result1(message.payload, "This could be anything");
-        result(message.payload, "This could be anything");
+        const new1 = () => {
+          const new2 = () => {
+            dualOutput(
+              message.payload,
+              "Your balance is ₦" +
+                Intl.NumberFormat().format(balance.data.balance)
+            );
+            const new3 = async () => {
+              await new Promise((resolve) => setTimeout(resolve, 10000));
+
+              //justBot("Starting Over");
+            };
+            new3();
+          };
+          new2();
+        };
+        new1();
         break;
       case "2":
-        // code block
+        justBot("Enter your Network?");
+        setController(2);
         break;
       default:
-      // code block
     }
   };
 
   const handleSubmit = (message, { resetForm }) => {
-    if (message.payload != "") process(message);
-
+    if (message.payload != "") {
+      //process(message);
+      control(message);
+    }
     resetForm();
   };
 
   return (
     <View style={styles.container}>
-      {/* <AppButton
-        style={
-          toggle ? { ...styles.button, ...styles.toggleEffect } : styles.button
-        }
-        onPress={handlePress}
-      >
-        <MaterialCommunityIcons
-          name="currency-ngn"
-          size={30}
-          color={toggleColor}
-        />
-      </AppButton> */}
       <Form initialValues={{ payload: "" }} onSubmit={handleSubmit}>
-        {toggle ? (
-          <FormField
-            keyboardType="numeric"
-            maxLength={10}
-            name="payload"
-            placeholder="Amount"
-            width="67%"
-          />
-        ) : (
-          <FormField
-            multiline
-            name="payload"
-            numberOfLines={1}
-            placeholder="Enter message"
-            width="67%"
-          />
-        )}
+        {
+          (toggle = false ? (
+            <FormField
+              keyboardType="numeric"
+              maxLength={10}
+              name="payload"
+              placeholder="Amount"
+              width="67%"
+            />
+          ) : (
+            <FormField
+              multiline
+              name="payload"
+              numberOfLines={1}
+              placeholder="Enter message"
+              width="75%"
+            />
+          ))
+        }
         <SubmitButton style={styles.button}>
           <MaterialCommunityIcons name="send" size={30} />
         </SubmitButton>

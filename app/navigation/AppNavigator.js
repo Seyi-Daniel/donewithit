@@ -5,6 +5,7 @@ import AccountScreen from "../screens/AccountScreen";
 import BotScreen from "../screens/BotScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ChatHeader from "../components/ChatHeader";
+import PersonalChatHeader from "../components/PersonalChatHeader";
 import MessagesHeader from "../components/MessagesHeader";
 import MessagesScreen from "../screens/MessagesScreen";
 import BotTransactionScreen from "../screens/BotTransactionScreen";
@@ -37,7 +38,10 @@ export default AccountNavigator = () => (
       component={ChatScreen}
       options={({ route }) => ({
         headerTitle: () => (
-          <ChatHeader title={route.params.accountName} image />
+          <PersonalChatHeader
+            title={route.params.accountName}
+            image={route.params.profilePicture}
+          />
         ),
       })}
     />
