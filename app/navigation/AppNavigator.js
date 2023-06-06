@@ -9,6 +9,7 @@ import PersonalChatHeader from "../components/PersonalChatHeader";
 import MessagesHeader from "../components/MessagesHeader";
 import MessagesScreen from "../screens/MessagesScreen";
 import BotTransactionScreen from "../screens/BotTransactionScreen";
+import ContactScreen from "../screens/ContactScreen";
 
 import HistoryNavigator from "./HistoryNavigator";
 
@@ -39,8 +40,8 @@ export default AccountNavigator = () => (
       options={({ route }) => ({
         headerTitle: () => (
           <PersonalChatHeader
-            title={route.params.accountName}
-            image={route.params.profilePicture}
+            title={route.params.firstName}
+            image={route.params.profilePictureUrl}
           />
         ),
       })}
@@ -57,6 +58,13 @@ export default AccountNavigator = () => (
       component={HistoryNavigator}
       options={({ route }) => ({
         headerTitle: () => <ChatHeader title="Transaction History" image />,
+      })}
+    />
+    <Stack.Screen
+      name="Contacts"
+      component={ContactScreen}
+      options={({ route }) => ({
+        headerTitle: () => <ChatHeader title="Contact Screen" image />,
       })}
     />
   </Stack.Navigator>

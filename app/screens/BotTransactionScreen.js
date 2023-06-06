@@ -3,8 +3,8 @@ import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import ActivityIndicator from "../components/ActivityIndicator";
-import accountApi from "../api/account";
-import contactsApi from "../api/contacts";
+import userHistoryApi from "../api/userHistory";
+import botHistory from "../api/botHistory";
 
 import ListItem from "../components/ListItem";
 import ListItemSeperator from "../components/ListItemSeperator";
@@ -18,44 +18,38 @@ import AppButton from "../components/AppButton";
 
 const initialMessages = [];
 
-function BotTransactionScreen({ navigation }) {
+function UserTransactionScreen({ navigation }) {
   const { user } = useContext(AuthContext);
 
   const [messages, setMessages] = useState(initialMessages);
   const [refreshing, setRefreshing] = useState(false);
 
   const {
-    data: account,
+    data: userHistory,
     loading,
-    request: loadAccount,
-  } = useApi(accountApi.getAccount);
-
-  const { data: contacts, request: loadContacts } = useApi(
-    contactsApi.getContacts
-  );
+    request: loadUserHistory,
+  } = useApi(botHistory.getBotHistory);
 
   useEffect(() => {
-    loadAccount(user.nameid);
-    loadContacts();
+    loadUserHistory();
   }, []);
 
+  console.log(userHistory);
   return (
     <>
       <ActivityIndicator visible={loading} />
-      {account.data && (
+      {userHistory.data && (
         <View style={{ flex: 1 }}>
           <ListItemSeperator />
           <FlatList
             // style={{ backgroundColor: "red" }}
-            data={contacts.data}
-            keyExtractor={(chat) => chat.beneficiaryNumber.toString()}
+            data={userHistory.data}
+            keyExtractor={(person) => person.phoneNumber.toString()}
             renderItem={({ item }) => (
               <ListItem
-                badge={{ name: "circle", color: colors.green }}
-                title={item.accountName}
-                subTitle={item.beneficiaryNumber}
+                title={"Phone Number:   " + item.phoneNumber}
+                subTitle={"Amount: ₦" + Intl.NumberFormat().format(item.amount)}
                 image={{ uri: item.profilePicture }}
-                onPress={() => navigation.navigate(routes.CHAT, item)}
               />
             )}
             ItemSeparatorComponent={ListItemSeperator}
@@ -94,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BotTransactionScreen;
+export default UserTransactionScreen;

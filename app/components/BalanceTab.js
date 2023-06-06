@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import balance from "../api/balance";
+import AppTextInput from "./AppTextInput";
 
 const BalanceTab = () => {
   const [data, setData] = useState(null);
@@ -33,17 +34,18 @@ const styles = StyleSheet.create({
     color: "#0DDE65",
     backgroundColor: "#003399",
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 20,
     padding: 10,
     borderRadius: 10,
     textAlign: "center",
   },
   container: {
-    height: 56,
+    height: 70,
     marginTop: 5,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#207F95",
+    flexDirection: "row",
   },
 });
 

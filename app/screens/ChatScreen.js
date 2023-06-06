@@ -45,7 +45,7 @@ function ChatScreen({ route }) {
 
   useEffect(() => {
     setInterval(() => {
-      loadChats(route.params.beneficiaryNumber);
+      loadChats(route.params.number);
     }, 5000);
     const delay = async () => {
       await new Promise((resolve) => setTimeout(resolve, 1));
@@ -55,7 +55,7 @@ function ChatScreen({ route }) {
   }, [refresh]);
 
   useEffect(() => {
-    loadChats(route.params.beneficiaryNumber);
+    loadChats(route.params.number);
   }, [temp]);
 
   // useEffect(() => {

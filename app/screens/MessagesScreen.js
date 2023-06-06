@@ -31,7 +31,7 @@ function MessagesScreen({ navigation }) {
   } = useApi(accountApi.getAccount);
 
   const { data: contacts, request: loadContacts } = useApi(
-    contactsApi.getContacts
+    contactsApi.getPrevious
   );
 
   useEffect(() => {
@@ -72,13 +72,13 @@ function MessagesScreen({ navigation }) {
           <FlatList
             // style={{ backgroundColor: "red" }}
             data={contacts.data}
-            keyExtractor={(chat) => chat.beneficiaryNumber.toString()}
+            keyExtractor={(chat) => chat.number.toString()}
             renderItem={({ item }) => (
               <ListItem
                 badge={{ name: "circle", color: colors.green }}
-                title={item.accountName}
-                subTitle={item.beneficiaryNumber}
-                image={{ uri: item.profilePicture }}
+                title={item.firstName + " " + item.lastName}
+                //subTitle={item.beneficiaryNumber}
+                image={{ uri: item.profilePictureUrl }}
                 onPress={() => navigation.navigate(routes.CHAT, item)}
               />
             )}
@@ -88,7 +88,7 @@ function MessagesScreen({ navigation }) {
           />
           <AppButton
             style={styles.contactButton}
-            onPress={() => navigation.push(routes.MESSAGES)}
+            onPress={() => navigation.navigate("Contacts")}
           >
             <MaterialIcons name="chat-bubble-outline" size={24} />
           </AppButton>

@@ -64,9 +64,15 @@ function BotChatTool({ accountNo, send, tempState }) {
       case 1:
         process(message);
         break;
-      case "2":
-        justBot("That worked");
+      case (2, 3, 4, 5, 6, 7, 9, 10):
+        process(message);
         break;
+      case 8:
+        process(message);
+        break;
+      case 13:
+        complaints(message);
+        setController(1);
       default:
     }
   };
@@ -74,30 +80,56 @@ function BotChatTool({ accountNo, send, tempState }) {
   const process = (message) => {
     switch (message.payload) {
       case "1":
-        const new1 = () => {
-          const new2 = () => {
-            dualOutput(
-              message.payload,
-              "Your balance is ₦" +
-                Intl.NumberFormat().format(balance.data.balance)
-            );
-            const new3 = async () => {
-              await new Promise((resolve) => setTimeout(resolve, 10000));
-
-              //justBot("Starting Over");
-            };
-            new3();
-          };
-          new2();
-        };
-        new1();
+        dualOutput(
+          message.payload,
+          "Your balance is ₦" + Intl.NumberFormat().format(balance.data.balance)
+        );
         break;
       case "2":
-        justBot("Enter your Network?");
-        setController(2);
+        dualOutput(message.payload, "Coming Soon");
+        //setController(2);
+        break;
+      case "3":
+        dualOutput(message.payload, "Coming Soon");
+        //setController(2);
+        break;
+      case "4":
+        dualOutput(message.payload, "Coming Soon");
+        //setController(2);
+        break;
+      case "5":
+        dualOutput(message.payload, "Coming Soon");
+        //setController(2);
+        break;
+      case "6":
+        dualOutput(message.payload, "Coming Soon");
+        //setController(2);
+        break;
+      case "7":
+        dualOutput(message.payload, "Coming Soon");
+        //setController(2);
+        break;
+      case "9":
+        dualOutput(message.payload, "Coming Soon");
+        //setController(2);
+        break;
+      case "10":
+        dualOutput(message.payload, "Coming Soon");
+      //setController(2);
+      case "8":
+        dualOutput(message.payload, "Please enter your complaints");
+        setController(13);
         break;
       default:
     }
+  };
+
+  const complaints = (message) => {
+    dualOutput(
+      message.payload,
+      message.payload + "\n\n\nYour complaint has been logged"
+    );
+    setController(1);
   };
 
   const handleSubmit = (message, { resetForm }) => {

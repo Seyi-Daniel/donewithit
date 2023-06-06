@@ -27,13 +27,17 @@ function ChatTools({ accountNo, refresh, setRefresh }) {
     }
   };
 
-  const handleSubmit = (message, { resetForm }) => {
+  //const { data: response, request: sendChat } = useApi(chatApi.sendChat);
+
+  const handleSubmit = async (message, { resetForm }) => {
     const type = toggle ? "Transaction" : "Text";
     const chat = { ...message, type };
 
     if (chat.payload != "") {
-      chatApi.sendChat(chat);
       resetForm();
+      const result = await chatApi.sendChat(chat);
+      if (result.data.message !== "") alert(result.data.message);
+      else alert("Sent Successfully");
       setRefresh(!refresh);
     }
     resetForm();
@@ -58,17 +62,30 @@ function ChatTools({ accountNo, refresh, setRefresh }) {
           />
         </AppButton>
         <Form
-          initialValues={{ recipientNumber: accountNo, payload: "" }}
+          initialValues={{
+            recipientNumber: accountNo,
+            payload: "",
+            //authPin: 0,
+          }}
           onSubmit={handleSubmit}
         >
           {toggle ? (
-            <FormField
-              keyboardType="numeric"
-              maxLength={10}
-              name="payload"
-              placeholder="Amount"
-              width="68.5%"
-            />
+            <>
+              <FormField
+                keyboardType="numeric"
+                maxLength={10}
+                name="payload"
+                placeholder="Amount"
+                width="35%"
+              />
+              <FormField
+                keyboardType="numeric"
+                maxLength={4}
+                name="authPin"
+                placeholder="PIN"
+                width="34%"
+              />
+            </>
           ) : (
             <FormField
               multiline

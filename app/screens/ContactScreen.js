@@ -3,7 +3,8 @@ import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import ActivityIndicator from "../components/ActivityIndicator";
-import userHistoryApi from "../api/userHistory";
+import accountApi from "../api/account";
+import contactsApi from "../api/contacts";
 
 import ListItem from "../components/ListItem";
 import ListItemSeperator from "../components/ListItemSeperator";
@@ -17,48 +18,55 @@ import AppButton from "../components/AppButton";
 
 const initialMessages = [];
 
-function UserTransactionScreen({ navigation }) {
+function ContactScreen({ navigation }) {
   const { user } = useContext(AuthContext);
 
   const [messages, setMessages] = useState(initialMessages);
   const [refreshing, setRefreshing] = useState(false);
 
   const {
-    data: userHistory,
+    data: account,
     loading,
-    request: loadUserHistory,
-  } = useApi(userHistoryApi.getUserHistory);
+    request: loadAccount,
+  } = useApi(accountApi.getAccount);
+
+  const { data: contacts, request: loadContacts } = useApi(
+    contactsApi.getContacts
+  );
 
   useEffect(() => {
-    loadUserHistory();
+    loadAccount(user.nameid);
+    loadContacts();
   }, []);
 
-  console.log(userHistory.data);
   return (
     <>
       <ActivityIndicator visible={loading} />
-      {userHistory.data && (
+      {account.data && (
         <View style={{ flex: 1 }}>
-          <ListItemSeperator />
           <FlatList
             // style={{ backgroundColor: "red" }}
-            data={userHistory.data}
-            keyExtractor={(person) => person.id.toString()}
+            data={contacts.data}
+            keyExtractor={(chat) => chat.beneficiaryNumber.toString()}
             renderItem={({ item }) => (
               <ListItem
-                title={item.firstName}
-                subTitle={
-                  item.interaction +
-                  " :₦" +
-                  Intl.NumberFormat().format(item.payload)
-                }
-                image={{ uri: item.profilePictureUrl }}
+                //badge={{ name: "circle", color: colors.green }}
+                title={item.accountName}
+                subTitle={item.beneficiaryNumber}
+                image={{ uri: item.profilePicture }}
+                onPress={() => navigation.navigate(routes.CHAT, item)}
               />
             )}
             ItemSeparatorComponent={ListItemSeperator}
             refreshing={refreshing}
             onRefresh={() => {}}
           />
+          <AppButton
+            style={styles.contactButton}
+            onPress={() => navigation.push(routes.MESSAGES)}
+          >
+            <MaterialIcons name="chat-bubble-outline" size={24} />
+          </AppButton>
         </View>
       )}
     </>
@@ -91,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserTransactionScreen;
+export default ContactScreen;
