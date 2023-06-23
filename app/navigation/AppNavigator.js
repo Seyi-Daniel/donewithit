@@ -5,6 +5,7 @@ import AccountScreen from "../screens/AccountScreen";
 import BotScreen from "../screens/BotScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ChatHeader from "../components/ChatHeader";
+import UserTransactionScreen from "../screens/UserTransactionScreen";
 import PersonalChatHeader from "../components/PersonalChatHeader";
 import MessagesHeader from "../components/MessagesHeader";
 import MessagesScreen from "../screens/MessagesScreen";
@@ -14,6 +15,7 @@ import ContactScreen from "../screens/ContactScreen";
 import HistoryNavigator from "./HistoryNavigator";
 
 import colors from "../config/colors";
+//import UserTransactionScreen from "../screens/UserTransactionScreen";
 
 const Stack = createStackNavigator();
 
@@ -50,7 +52,7 @@ export default AccountNavigator = () => (
       name="BotChat"
       component={BotScreen}
       options={({ route }) => ({
-        headerTitle: () => <ChatHeader title="Prime" image />,
+        headerTitle: () => <ChatHeader title="Prime" image data={{}} />,
       })}
     />
     <Stack.Screen
@@ -65,6 +67,20 @@ export default AccountNavigator = () => (
       component={ContactScreen}
       options={({ route }) => ({
         headerTitle: () => <ChatHeader title="Contact Screen" image />,
+      })}
+    />
+    <Stack.Screen
+      name="BotHistory"
+      component={BotTransactionScreen}
+      options={({ route }) => ({
+        headerTitle: () => <ChatHeader title="Transaction History" image />,
+      })}
+    />
+    <Stack.Screen
+      name="UserHistory"
+      component={UserTransactionScreen}
+      options={({ route }) => ({
+        headerTitle: () => <ChatHeader title="Transaction History" image />,
       })}
     />
   </Stack.Navigator>

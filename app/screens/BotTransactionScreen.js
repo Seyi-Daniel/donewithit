@@ -18,7 +18,7 @@ import AppButton from "../components/AppButton";
 
 const initialMessages = [];
 
-function UserTransactionScreen({ navigation }) {
+function BotTransactionScreen({ navigation }) {
   const { user } = useContext(AuthContext);
 
   const [messages, setMessages] = useState(initialMessages);
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserTransactionScreen;
+export default BotTransactionScreen;

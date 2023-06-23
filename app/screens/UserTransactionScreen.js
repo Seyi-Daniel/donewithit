@@ -43,7 +43,9 @@ function UserTransactionScreen({ navigation }) {
           <FlatList
             // style={{ backgroundColor: "red" }}
             data={userHistory.data}
-            keyExtractor={(person) => person.id.toString()}
+            keyExtractor={(person) =>
+              person.modified.toString() + Math.random()
+            }
             renderItem={({ item }) => (
               <ListItem
                 title={item.firstName}
